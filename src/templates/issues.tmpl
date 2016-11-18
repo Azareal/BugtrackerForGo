@@ -1,0 +1,10 @@
+{{template "header.tmpl" . }}
+<div class="rowblock">
+	<div class="rowitem"><a>Issue List</a></div>
+</div>
+<div class="rowblock">
+	{{range .ItemList}}<div class="rowitem">
+		<a href="/issue/{{.ID}}">{{.Title}}</a> <span class="issue_status issue_status_{{.Status}}">{{.Status}}</span>
+	</div>{{end}}
+</div>
+{{template "footer.tmpl" . }}

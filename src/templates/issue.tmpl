@@ -1,0 +1,46 @@
+{{template "header.tmpl" . }}
+<div class="rowblock">
+	<form action='/issue/edit/submit/{{index .Something "iid"}}' method="post">
+		<div class="rowitem">
+			<a class='issue_name hide_on_edit'>{{index .Something "title"}}</a> 
+			<span class='issue_status issue_status_e issue_status_{{index .Something "status"}} hide_on_edit'>{{index .Something "status"}}</span> 
+			<a href='/issue/edit/{{index .Something "ID"}}' class="issue_status hide_on_edit open_edit">Edit</a>
+			<a href='/issue/delete/{{index .Something "ID"}}' class="issue_status">Delete</a>
+			
+			<input class='show_on_edit issue_name_input' name="issue_name" value='{{index .Something "title"}}' type="text" />
+			<select name="issue_status" class='show_on_edit issue_status_input'>
+			{{range .StatusList}}<option>{{.}}</option>{{end}}
+			</select>
+			<button name="issue-button" class="formbutton show_on_edit submit_edit">Update</button>
+		</div>
+	</form>
+</div>
+<div class="rowblock">
+	<div class="rowitem passive editable_parent" style="border-bottom: none;">
+		<span class="hide_on_edit issue_content">{{index .Something "content"}}</span>
+		<textarea name="issue_content" class="show_on_edit issue_content_input">{{index .Something "content"}}</textarea>
+		<br /><br />
+		<a class="issue_status" style="padding-left: 0px;margin-left: 0px;">{{index .Something "createdByName"}}<a/>
+	</div>
+</div><br />
+<div class="rowblock">
+	{{range $index, $element := .ItemList}}<div class="rowitem passive deletable_block editable_parent">
+		<span class="editable_block">{{$element.Content}}</span>
+		<br /><br />
+		<a class="issue_status" style="padding-left: 0px;margin-left: 0px;">{{$element.CreatedByName}}<a/>
+		<a href="/reply/edit/submit/{{$element.ID}}"><button class="issue_status edit_item">Edit</button></a>
+		<a href="/reply/delete/submit/{{$element.ID}}"><button class="issue_status delete_item">Delete</button></a>
+	</div>{{end}}
+</div>
+<div class="rowblock">
+	<form action="/reply/create" method="post">
+		<input name="iid" value='{{index .Something "iid"}}' type="hidden" />
+		<div class="formrow">
+			<div class="formitem"><textarea name="reply-content" placeholder="Insert reply here"></textarea></div>
+		</div>
+		<div class="formrow">
+			<div class="formitem"><button name="reply-button" class="formbutton">Create Reply</div></div>
+		</div>
+	</form>
+</div>
+{{template "footer.tmpl" . }}
